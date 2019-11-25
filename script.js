@@ -35,6 +35,9 @@ function weatherForecast() {
         let cityName = userCity;
         const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&APPID="+apiKey;
         let oneDayWeather = {
+            weather: "",
+            weatherDescription: "",
+            weatherIcon:"",
             temp: "",
             humidity: "",
             windSpeed: "",
@@ -47,6 +50,9 @@ function weatherForecast() {
         axios.get(oneDayWeatherURL) 
         .then(function(response) {
             
+            oneDayWeather.weather = response.data.weather.main;
+            oneDayWeather.weatherDescription = response.data.weather.description;
+            oneDayWeather.weatherIcon = response.data.weather.icon;
             oneDayWeather.temp = response.data.main.temp;
             oneDayWeather.humidity = response.data.main.humidity;
             oneDayWeather.windSpeed = response.data.wind.speed;
