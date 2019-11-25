@@ -49,10 +49,10 @@ function weatherForecast() {
         // Performs request to the weather API with get
         axios.get(oneDayWeatherURL) 
         .then(function(response) {
-            
-            oneDayWeather.weather = response.data.weather.main;
-            oneDayWeather.weatherDescription = response.data.weather.description;
-            oneDayWeather.weatherIcon = response.data.weather.icon;
+            console.log(response);
+            oneDayWeather.weather = response.data.weather[0].main;
+            oneDayWeather.weatherDescription = response.data.weather[0].description;
+            oneDayWeather.weatherIcon = response.data.weather[0].icon;
             oneDayWeather.temp = response.data.main.temp;
             oneDayWeather.humidity = response.data.main.humidity;
             oneDayWeather.windSpeed = response.data.wind.speed;
