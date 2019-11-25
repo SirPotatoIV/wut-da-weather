@@ -49,7 +49,6 @@ function weatherForecast() {
         // Performs request to the weather API with get
         axios.get(oneDayWeatherURL) 
         .then(function(response) {
-            console.log(response);
             oneDayWeather.weather = response.data.weather[0].main;
             oneDayWeather.weatherDescription = response.data.weather[0].description;
             oneDayWeather.weatherIcon = response.data.weather[0].icon;
@@ -62,7 +61,6 @@ function weatherForecast() {
             // Tried setting oneDayWeather.uvIndex in this function, but it would set the value before the function call completed.
             requestUVIndex(oneDayWeather, apiKey)
         });
-       
     }
     
     function requestUVIndex(oneDayWeather, apiKey){
@@ -74,9 +72,14 @@ function weatherForecast() {
             
             oneDayWeather.uvIndex = response.data.value;
             console.log(oneDayWeather);
+            oneDayRender(oneDayWeather);
         
-        });
-        
+        });  
+    }
+
+    function oneDayRender(oneDayWeather){
+        imgUrl = 'http://openweathermap.org/img/wn/'+oneDayWeather.weatherIcon+'@2x.png'
+        console.log(imgUrl);
     }
             
 }
