@@ -20,7 +20,7 @@ function weatherForecast() {
                 
                 // let userCity = cityInputEl.value;
                 let userCity = "minneapolis"; 
-                // console.log('You searched for this city: ',city);
+                console.log('You searched for this city: ',userCity);
                 searchForCityWeather(userCity);
             });
             
@@ -30,20 +30,34 @@ function weatherForecast() {
     // Function will be used to perform request to the weather API
     function searchForCityWeather(userCity){
         // Currently AyDy's key for the weather API.
-        const APIKey = "947af45bc8d7b63be4d0d313320202fb";
+        const apiKey = "14148f20140310fac55bc379dbdb7119";
+        let lat = "";
+        let lon = "";
+        // let cityName = userCity;
         let cityName = userCity;
-        const queryURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&APPID="+APIKey;
-
+        const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&APPID="+apiKey;
+        const uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+lat+"&lon="+lon;
+        const oneDayWeather = {
+            temp: "",
+            humidity: "",
+            windSpeed: "",
+            lat: "",
+            lon: "",
+            uvIndex: ""
+        };
+        
         // Performs request to the weather API with get
-        axios.get(queryURL) 
-            .then(function(response) {
-
-                const temp = response.data.main.temp;
-                const  humidity = response.data.main.humidity;
-                const windSpeed = response.data.wind.speed;
-                const lat = response.data.coord["lat"];
-                const log = response.data.coord["lon"];
-            });
+        axios.get(oneDayWeatherURL) 
+        .then(function(response) {
+            
+            
+            oneDayWeather.temp = response.data.main.temp;
+            oneDayWeather.humidity = response.data.main.humidity;
+            oneDayWeather.windSpeed = response.data.wind.speed;
+            oneDayWeather.lat = response.data.coord["lat"];
+            oneDayWeather.lon = response.data.coord["lon"];
+            console.log(oneDayWeather);
+        });
         
 
     }
