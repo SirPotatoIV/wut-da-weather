@@ -18,7 +18,7 @@ function weatherForecast() {
             searchButtonEl.addEventListener('click', function(){
                 event.preventDefault();
                 
-                // let userCity = cityInputEl.value;
+                // const userCity = cityInputEl.value;
                 let userCity = "minneapolis"; 
                 // console.log('You searched for this city: ',userCity);
                 searchForCityWeather(userCity);
@@ -32,9 +32,10 @@ function weatherForecast() {
         // Jake's apiKey
         const apiKey = "14148f20140310fac55bc379dbdb7119";
         // let cityName = userCity;
-        let cityName = userCity;
+        const cityName = userCity;
         const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&APPID="+apiKey;
         let oneDayWeather = {
+            city: cityName,
             weather: "",
             weatherDescription: "",
             weatherIcon:"",
@@ -82,6 +83,34 @@ function weatherForecast() {
         console.log(imgUrl);
     }
             
+    function getFiveDayForecast(){
+      
+        const apiKey = "14148f20140310fac55bc379dbdb7119";
+        let cityName = "minneapolis";
+        const fiveDayForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&APPID="+apiKey;
+        let fiveDayWeather = [];
+        
+        axios.get(fiveDayForecastURL) 
+        .then(function(response) {
+            
+            console.log(response);
+            console.log("Response Length:", response.data.list.length);
+            for(let i=0; i < response.data.list.length; i++){
+                const dayWeather = {
+                    time: response.data.list[i].dt,
+                    weatherDescription: response.data.list[i].weather[0].description,
+                    weatherIcon: response.data.list[i].weather[0].icon,
+                    temp: response.data.list[i].main.temp,
+                    humidity: response.data.list[i].main.humidity
+                }
+                console.log("Day Weather: ", i, dayWeather)
+                fiveDayWeather.push(dayWeather);
+            }
+            console.log(fiveDayWeather)
+        });
+    }
+    getFiveDayForecast();
+
 }
 weatherForecast();
 
