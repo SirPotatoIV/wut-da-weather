@@ -93,18 +93,26 @@ function weatherForecast() {
         axios.get(fiveDayForecastURL) 
         .then(function(response) {
             
-            console.log(response);
-            console.log("Response Length:", response.data.list.length);
             for(let i=0; i < response.data.list.length; i++){
-                const dayWeather = {
-                    time: response.data.list[i].dt,
-                    weatherDescription: response.data.list[i].weather[0].description,
-                    weatherIcon: response.data.list[i].weather[0].icon,
-                    temp: response.data.list[i].main.temp,
-                    humidity: response.data.list[i].main.humidity
+                
+                const timeUNIX = response.data.list[i].dt;
+                const stringTime = timeUNIX.toString();
+                const dateFormatted = moment(stringTime, "X").format("MM/DD/YYYY")
+                const timeFormatted = moment(stringTime, "X").format("HH:mm")
+
+                if(timeFormatted === "12:00"){
+                    const dayWeather = {
+                        date: dateFormatted,
+                        time: timeFormatted,
+                        weatherDescription: response.data.list[i].weather[0].description,
+                        weatherIcon: response.data.list[i].weather[0].icon,
+                        temp: response.data.list[i].main.temp,
+                        humidity: response.data.list[i].main.humidity
+                    }
+                    
+                    console.log("Day Weather: ", i, dayWeather)
+                    fiveDayWeather.push(dayWeather);
                 }
-                console.log("Day Weather: ", i, dayWeather)
-                fiveDayWeather.push(dayWeather);
             }
             console.log(fiveDayWeather)
         });
