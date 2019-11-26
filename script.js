@@ -1,16 +1,5 @@
 function weatherForecast() {
     
-    // let cityName = "minneapolis";
-    // // Here we are building the URL we need to query the database
-    
-    
-    // const city = "Bujumbura,Burundi"
-    
-    // Here we are building the URL we need to query the database
-    
-    
-    // We then created an AJAX call
-    // Function will be used to get the city the user wants to search for
     function getUserCity() {
             const searchButtonEl = document.getElementById('search-city');
             console.log(searchButtonEl);
@@ -18,24 +7,35 @@ function weatherForecast() {
             searchButtonEl.addEventListener('click', function(){
                 event.preventDefault();
                 
-                // const userCity = cityInputEl.value;
-                let userCity = "minneapolis"; 
-                // console.log('You searched for this city: ',userCity);
+                const userCity = cityInputEl.value;
+                console.log('You searched for this city: ',userCity);
+                storeInLocalStorage(userCity);
                 searchForCityWeather(userCity);
             });
             
     }
     getUserCity();
-        
+    
+    function storeInLocalStorage(userCity) {
+        const cityToStore = userCity;
+        let strCities = window.localStorage.getItem("strCities") || "[]";
+        console.log(strCities);
+        const cities = JSON.parse(strCities);
+        cities.push(cityToStore);
+        strCities = JSON.stringify(cities);
+        console.log("Local Storage: ", strCities)
+    }
+
     // Function will be used to perform request to the weather API
     function searchForCityWeather(userCity){
         // Jake's apiKey
         const apiKey = "14148f20140310fac55bc379dbdb7119";
-        // let cityName = userCity;
         const cityName = userCity;
-        const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&APPID="+apiKey;
+        const units = "imperial";
+        const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units="+units+"&APPID="+apiKey;
         let oneDayWeather = {
-            city: cityName,
+            city: "",
+            date:"",
             weather: "",
             weatherDescription: "",
             weatherIcon:"",
@@ -50,6 +50,8 @@ function weatherForecast() {
         // Performs request to the weather API with get
         axios.get(oneDayWeatherURL) 
         .then(function(response) {
+            oneDayWeather.city = response.data.name;
+            oneDayWeather.date = moment((response.data.dt).toString(), "X").format("MM/DD/YYYY")
             oneDayWeather.weather = response.data.weather[0].main;
             oneDayWeather.weatherDescription = response.data.weather[0].description;
             oneDayWeather.weatherIcon = response.data.weather[0].icon;
@@ -74,6 +76,7 @@ function weatherForecast() {
             oneDayWeather.uvIndex = response.data.value;
             console.log(oneDayWeather);
             oneDayRender(oneDayWeather);
+            getFiveDayForecast(oneDayWeather);
         
         });  
     }
@@ -83,11 +86,12 @@ function weatherForecast() {
         console.log(imgUrl);
     }
             
-    function getFiveDayForecast(){
+    function getFiveDayForecast(oneDayWeather){
       
         const apiKey = "14148f20140310fac55bc379dbdb7119";
-        let cityName = "minneapolis";
-        const fiveDayForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&APPID="+apiKey;
+        const cityName = oneDayWeather.city;
+        const units = "imperial";
+        const fiveDayForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&units="+units+"&APPID="+apiKey;
         let fiveDayWeather = [];
         
         axios.get(fiveDayForecastURL) 
@@ -109,7 +113,7 @@ function weatherForecast() {
                         temp: response.data.list[i].main.temp,
                         humidity: response.data.list[i].main.humidity
                     }
-                    
+
                     console.log("Day Weather: ", i, dayWeather)
                     fiveDayWeather.push(dayWeather);
                 }
@@ -117,7 +121,7 @@ function weatherForecast() {
             console.log(fiveDayWeather)
         });
     }
-    getFiveDayForecast();
+    // getFiveDayForecast();
 
 }
 weatherForecast();
