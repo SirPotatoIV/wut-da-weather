@@ -1,46 +1,55 @@
 function weatherForecast() {
     
-    function previousSearchRender(isRendered, userCity) {
+    function pageInit(){
+        const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
+        const previousCities = JSON.parse(previousCitiesStr);
+        const lastCity = previousCities[previousCities.length-1];
+        console.log(lastCity);
+        searchRender()
+        searchForCityWeather(lastCity)
+    }
+    pageInit();
+    
+
+    function searchRender(isRendered, userCity) {
         const sideNavEl = document.getElementById('slide-out');
-        const previousCities = window.localStorage.getItem("previousCities") || "[]";
-        console.log(previousCities)
-        const cities = JSON.parse(previousCities);
+        const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
+        // console.log(previousCities)
+        const previousCities = JSON.parse(previousCitiesStr);
         if(isRendered){
             const previousSearchEl = document.createElement('li');
                 previousSearchEl.innerText = userCity;
                 sideNavEl.append(previousSearchEl);
-        }else{
-            for(i=0; i < cities.length; i++){
+        } else{
+            for(i=0; i < previousCities.length; i++){
                 const previousSearchEl = document.createElement('li');
-                previousSearchEl.innerText = cities[cities.length-i-1];
+                previousSearchEl.innerText = previousCities[previousCities.length-i-1];
                 sideNavEl.append(previousSearchEl);
-                console.log("Previous Search:",previousSearchEl);
+                // console.log("Previous Search:",previousSearchEl);
             }
         }
-    
-
-
     }
-    previousSearchRender();
+    searchRender();
+
     
     function getUserCity() {
-            const searchButtonEl = document.getElementById('search-city');
-            console.log(searchButtonEl);
+        const searchButtonEl = document.getElementById('search-city');
+        console.log(searchButtonEl);
             const cityInputEl = document.getElementById('city-input');
             searchButtonEl.addEventListener('click', function(){
                 event.preventDefault();
                 
                 const userCity = cityInputEl.value;
                 // console.log('You searched for this city: ',userCity);
-                previousSearchRender(true, userCity)
+                searchRender(true, userCity)
                 storeInLocalStorage(userCity);
                 searchForCityWeather(userCity);
                 
             });
             
-    }
-    getUserCity();
-    
+        }
+        getUserCity();
+        
     function storeInLocalStorage(userCity) {
         const cityToStore = userCity;
         let strCities = window.localStorage.getItem("previousCities") || "[]";
@@ -57,7 +66,7 @@ function weatherForecast() {
         console.log("Local Storage: ", previousCities)
         // initialRender();
     }
-
+    
     // Function will be used to perform request to the weather API
     function searchForCityWeather(userCity){
         // Jake's apiKey
@@ -109,7 +118,7 @@ function weatherForecast() {
             // console.log(oneDayWeather);
             oneDayRender(oneDayWeather);
             getFiveDayForecast(oneDayWeather);
-        
+            
         });  
     }
 
@@ -117,9 +126,9 @@ function weatherForecast() {
         imgUrl = 'http://openweathermap.org/img/wn/'+oneDayWeather.weatherIcon+'@2x.png'
         // console.log(imgUrl);
     }
-            
+    
     function getFiveDayForecast(oneDayWeather){
-      
+        
         const apiKey = "14148f20140310fac55bc379dbdb7119";
         const cityName = oneDayWeather.city;
         const units = "imperial";
@@ -135,7 +144,7 @@ function weatherForecast() {
                 const stringTime = timeUNIX.toString();
                 const dateFormatted = moment(stringTime, "X").format("MM/DD/YYYY")
                 const timeFormatted = moment(stringTime, "X").format("HH:mm")
-
+                
                 if(timeFormatted === "12:00"){
                     const dayWeather = {
                         date: dateFormatted,
@@ -145,15 +154,32 @@ function weatherForecast() {
                         temp: response.data.list[i].main.temp,
                         humidity: response.data.list[i].main.humidity
                     }
-
+                    
                     // console.log("Day Weather: ", i, dayWeather)
                     fiveDayWeather.push(dayWeather);
                 }
             }
             // console.log(fiveDayWeather)
+            weatherRender(oneDayWeather, fiveDayWeather);
         });
     }
     // getFiveDayForecast();
+    
+    function weatherRender(oneDayWeather, fiveDayWeather){
+
+        const oneDayTempEl = document.getElementById('temperature');
+        const oneDayHumidityEl = document.getElementById('humidity');
+        const oneDayWindSpeedEl = document.getElementById('wind-speed');
+        const oneDayUvIndexEl = document.getElementById('uv-index');
+        // console.log(oneDayTempEl, oneDayHumidityEl, oneDayWindSpeedEl, oneDayUvIndexEl)
+        // https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
+        oneDayTempEl.innerText = "Temperature: "+oneDayWeather.temp+" \u00b0"+"F";
+        // console.log(oneDayTempEl)
+        oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
+        oneDayWindSpeedEl.innerText = "Wind Speed: "+oneDayWeather.windSpeed+" MPH";
+        oneDayUvIndexEl.innerText = "UV Index: "+oneDayWeather.uvIndex;
+    }
+    // weatherRender();
 
 }
 weatherForecast();
