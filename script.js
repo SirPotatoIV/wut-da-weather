@@ -154,32 +154,66 @@ function weatherForecast() {
                         temp: response.data.list[i].main.temp,
                         humidity: response.data.list[i].main.humidity
                     }
-                    
-                    // console.log("Day Weather: ", i, dayWeather)
+
                     fiveDayWeather.push(dayWeather);
                 }
             }
-            // console.log(fiveDayWeather)
+           
             weatherRender(oneDayWeather, fiveDayWeather);
         });
     }
-    // getFiveDayForecast();
+   
     
     function weatherRender(oneDayWeather, fiveDayWeather){
 
+        const cityNameEl = document.getElementById('city')
         const oneDayTempEl = document.getElementById('temperature');
         const oneDayHumidityEl = document.getElementById('humidity');
         const oneDayWindSpeedEl = document.getElementById('wind-speed');
         const oneDayUvIndexEl = document.getElementById('uv-index');
-        // console.log(oneDayTempEl, oneDayHumidityEl, oneDayWindSpeedEl, oneDayUvIndexEl)
+
         // https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
+        cityNameEl.innerText = oneDayWeather.city+" "+oneDayWeather.date;
         oneDayTempEl.innerText = "Temperature: "+oneDayWeather.temp+" \u00b0"+"F";
-        // console.log(oneDayTempEl)
         oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
         oneDayWindSpeedEl.innerText = "Wind Speed: "+oneDayWeather.windSpeed+" MPH";
         oneDayUvIndexEl.innerText = "UV Index: "+oneDayWeather.uvIndex;
+        
+        const fiveDayRowEl = document.getElementById('five-day-row')
+        fiveDayRowEl.innerHTML = `
+            <div class="col">
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <img src="http://placehold.it/50x50">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p id="date"></p>
+                            <p id="temp">Temp</p>
+                            <p id="humidity">Humid</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        
+
+        // $(".five-day-display").append(` 
+        // <div class="col">
+        //     <div class="card horizontal">
+        //         <div class="card-image">
+        //             <img src="http://placehold.it/50x50">
+        //         </div>
+        //         <div class="card-stacked">
+        //             <div class="card-content">
+        //                 <p id="date">Date</p>
+        //                 <p id="temp">Temp</p>
+        //                 <p id="humidity">Humid</p>
+        //             </div>
+        //         </div>
+        //     </div>
+        // </div>`)
+       
     }
-    // weatherRender();
 
 }
 weatherForecast();

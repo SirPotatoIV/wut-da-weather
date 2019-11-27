@@ -58,6 +58,10 @@
                 <h5>5-Day Forecast</h5>
               </div>
             </div>
+
+            <div id="five-day-row" class="row">
+             <!-- 5 day forecast cards will be displayed here -->
+            </div>
         
         </div>
         
@@ -75,13 +79,16 @@
   <!-- Script to add axios -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <!-- Script to add materialize -->
-  <script
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://unpkg.com/moment"></script>
   <!-- https://stackoverflow.com/questions/58270663/samesite-warning-chrome-77 -->
   <!-- https://web.dev/samesite-cookies-explained/ -->
   <!-- <script src="https://kit.fontawesome.com/1443062cae.js" crossorigin="anonymous"> response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=None"); </script> -->
   <!-- Script to add my js -->
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
   <script>
     const slideMenu = document.querySelectorAll('.sidenav');
     M.Sidenav.init(slideMenu,{});
