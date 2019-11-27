@@ -5,7 +5,7 @@ function weatherForecast() {
             console.log(searchButtonEl);
             const cityInputEl = document.getElementById('city-input');
             searchButtonEl.addEventListener('click', function(){
-                event.preventDefault();
+                // event.preventDefault();
                 
                 const userCity = cityInputEl.value;
                 console.log('You searched for this city: ',userCity);
