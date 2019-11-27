@@ -1,16 +1,41 @@
 function weatherForecast() {
     
+    function previousSearchRender(isRendered, userCity) {
+        const sideNavEl = document.getElementById('slide-out');
+        const previousCities = window.localStorage.getItem("previousCities") || "[]";
+        console.log(previousCities)
+        const cities = JSON.parse(previousCities);
+        if(isRendered){
+            const previousSearchEl = document.createElement('li');
+                previousSearchEl.innerText = userCity;
+                sideNavEl.append(previousSearchEl);
+        }else{
+            for(i=0; i < cities.length; i++){
+                const previousSearchEl = document.createElement('li');
+                previousSearchEl.innerText = cities[cities.length-i-1];
+                sideNavEl.append(previousSearchEl);
+                console.log("Previous Search:",previousSearchEl);
+            }
+        }
+    
+
+
+    }
+    previousSearchRender();
+    
     function getUserCity() {
             const searchButtonEl = document.getElementById('search-city');
             console.log(searchButtonEl);
             const cityInputEl = document.getElementById('city-input');
             searchButtonEl.addEventListener('click', function(){
-                // event.preventDefault();
+                event.preventDefault();
                 
                 const userCity = cityInputEl.value;
-                console.log('You searched for this city: ',userCity);
+                // console.log('You searched for this city: ',userCity);
+                previousSearchRender(true, userCity)
                 storeInLocalStorage(userCity);
                 searchForCityWeather(userCity);
+                
             });
             
     }
@@ -18,12 +43,19 @@ function weatherForecast() {
     
     function storeInLocalStorage(userCity) {
         const cityToStore = userCity;
-        let strCities = window.localStorage.getItem("strCities") || "[]";
-        console.log(strCities);
-        const cities = JSON.parse(strCities);
+        let strCities = window.localStorage.getItem("previousCities") || "[]";
+        console.log("strCities:",strCities);
+        let cities = JSON.parse(strCities);
         cities.push(cityToStore);
-        strCities = JSON.stringify(cities);
-        console.log("Local Storage: ", strCities)
+        // makes sure only a max of 5 cities are shown
+        if(cities.length > 5){
+            cities.splice(0, 1);
+        }
+        console.log("cities:", cities)
+        previousCities = JSON.stringify(cities);
+        window.localStorage.setItem("previousCities", previousCities);
+        console.log("Local Storage: ", previousCities)
+        // initialRender();
     }
 
     // Function will be used to perform request to the weather API
@@ -74,7 +106,7 @@ function weatherForecast() {
         .then(function(response) {
             
             oneDayWeather.uvIndex = response.data.value;
-            console.log(oneDayWeather);
+            // console.log(oneDayWeather);
             oneDayRender(oneDayWeather);
             getFiveDayForecast(oneDayWeather);
         
@@ -83,7 +115,7 @@ function weatherForecast() {
 
     function oneDayRender(oneDayWeather){
         imgUrl = 'http://openweathermap.org/img/wn/'+oneDayWeather.weatherIcon+'@2x.png'
-        console.log(imgUrl);
+        // console.log(imgUrl);
     }
             
     function getFiveDayForecast(oneDayWeather){
@@ -114,11 +146,11 @@ function weatherForecast() {
                         humidity: response.data.list[i].main.humidity
                     }
 
-                    console.log("Day Weather: ", i, dayWeather)
+                    // console.log("Day Weather: ", i, dayWeather)
                     fiveDayWeather.push(dayWeather);
                 }
             }
-            console.log(fiveDayWeather)
+            // console.log(fiveDayWeather)
         });
     }
     // getFiveDayForecast();
