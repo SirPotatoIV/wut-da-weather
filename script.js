@@ -171,6 +171,7 @@ function weatherForecast() {
         const oneDayHumidityEl = document.getElementById('humidity');
         const oneDayWindSpeedEl = document.getElementById('wind-speed');
         const oneDayUvIndexEl = document.getElementById('uv-index');
+        const oneDayImgEl = document.getElementById('one-day-img')
 
         // https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
         cityNameEl.innerText = oneDayWeather.city+" "+oneDayWeather.date;
@@ -178,24 +179,42 @@ function weatherForecast() {
         oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
         oneDayWindSpeedEl.innerText = "Wind Speed: "+oneDayWeather.windSpeed+" MPH";
         oneDayUvIndexEl.innerText = "UV Index: "+oneDayWeather.uvIndex;
-        
+        oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
+        oneDayImgEl.setAttribute('src', oneDayimgUrl);
         const fiveDayRowEl = document.getElementById('five-day-row')
-        fiveDayRowEl.innerHTML = `
-            <div class="col">
-                <div class="card horizontal">
-                    <div class="card-image">
-                        <img src="http://placehold.it/50x50">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p id="date"></p>
-                            <p id="temp">Temp</p>
-                            <p id="humidity">Humid</p>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        
+
+        // for(i=0; i < fiveDayWeather.length; i++){
+        //     const fiveDayColEl = document.createElement('div');
+        //     fiveDayColEl.setAttribute('class','col s2')
+        //     fiveDayColEl.innerHTML = `
+        //             <div class="card horizontal">
+        //                 <div class="card-image">
+        //                     <img id="five-img" src="http://placehold.it/50x50">
+        //                 </div>
+        //                 <div class="card-stacked">
+        //                     <div class="card-content">
+        //                         <p id="five-date"></p>
+        //                         <p id="five-temp">Temp</p>
+        //                         <p id="five-humidity">Humidity</p>
+        //                     </div>
+        //                 </div>
+        //             </div>`;
+            
+        //     fiveDayRowEl.append(fiveDayColEl);
+                    
+        //     const fiveDayImgEl = document.getElementById('five-img');
+        //     // console.log(fiveDayImgEl);
+        //     const fiveDayDateEl = document.getElementById('five-date');
+        //     const fiveDayTempEl = document.getElementById('five-temp');
+        //     const fiveDayHumidityEl = document.getElementById('five-humidity');
+
+        //     fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
+        //     fiveDayDateEl.innerText = fiveDayWeather[i].date;
+        //     fiveDayTempEl.innerText = fiveDayWeather[i].temp;
+        //     fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity;
+            
+
+        // }
 
         // $(".five-day-display").append(` 
         // <div class="col">
