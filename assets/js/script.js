@@ -30,7 +30,13 @@ function weatherForecast() {
                 previousSearchButtonEl.innerText = previousCities[previousCities.length-i-1];
                 previousSearchEl.append(previousSearchButtonEl)
                 searchSectionEl.append(previousSearchEl);
-                // console.log("Previous Search:",previousSearchEl);
+                // Adds event listener to each previous search
+                previousSearchButtonEl.addEventListener("click", function(){
+                    // console.log("previous search clicked");
+                    const userCity = event.path[0].innerText;
+                    console.log(userCity);
+                    searchForCityWeather(userCity);
+                })
             }
         }
     }
