@@ -187,7 +187,7 @@ function weatherForecast() {
         // Realized I have an ID theft issue. Would need to code this section a different way.
         for(i=0; i < fiveDayWeather.length; i++){
             const fiveDayColEl = document.createElement('div');
-            fiveDayColEl.setAttribute('class','col s2')
+            fiveDayColEl.setAttribute('class','col s3')
             fiveDayColEl.innerHTML = `
                     <div class="card horizontal">
                         <div class="card-image">
