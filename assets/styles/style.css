@@ -1,9 +1,13 @@
+.space {
+    margin: 5px;
+}
+
 li {
     padding-left: 10px;
     padding-right: 10px;
 }
     
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width : 1151px) {
 header, main, footer {
     padding-left: 0;
 }

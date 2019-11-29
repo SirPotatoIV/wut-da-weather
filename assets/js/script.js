@@ -16,29 +16,7 @@ function weatherForecast() {
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
         // console.log(previousCities)
         const previousCities = JSON.parse(previousCitiesStr);
-        // if(isRendered){
-        //     const previousSearchEl = document.createElement('li');
-        //         previousSearchEl.innerText = userCity;
-        //         sideNavEl.append(previousSearchEl);
-        // } else{
-        //     const searchSectionEl = document.getElementById('previous-search-list');                
-        //     searchSectionEl.innerHTML = "";
-        //     for(i=0; i < previousCities.length; i++){
-        //         const previousSearchEl = document.createElement('li');
-        //         const previousSearchButtonEl = document.createElement('button');
-        //         previousSearchButtonEl.setAttribute("class", "btn")
-        //         previousSearchButtonEl.innerText = previousCities[previousCities.length-i-1];
-        //         previousSearchEl.append(previousSearchButtonEl)
-        //         searchSectionEl.append(previousSearchEl);
-        //         // Adds event listener to each previous search
-        //         previousSearchButtonEl.addEventListener("click", function(){
-        //             // console.log("previous search clicked");
-        //             const userCity = event.path[0].innerText;
-        //             console.log(userCity);
-        //             searchForCityWeather(userCity);
-        //         })
-        //     }
-        // }
+      
         const searchSectionEl = document.getElementById('previous-search-list');                
             searchSectionEl.innerHTML = "";
             for(i=0; i < previousCities.length; i++){
@@ -170,7 +148,7 @@ function weatherForecast() {
                 
                 const timeUNIX = response.data.list[i].dt;
                 const stringTime = timeUNIX.toString();
-                const dateFormatted = moment(stringTime, "X").format("MM/DD/YYYY")
+                const dateFormatted = moment(stringTime, "X").format("MM/DD/YY")
                 const timeFormatted = moment(stringTime, "X").format("HH:mm")
                 
                 if(timeFormatted === "12:00"){
@@ -214,23 +192,20 @@ function weatherForecast() {
         fiveDayRowEl.innerHTML="";
         let fiveDayEls = [];
 
-        // Realized I have an ID theft issue. Would need to code this section a different way.
+        // Renders the five day forecast
         for(i=0; i < fiveDayWeather.length; i++){
             const fiveDayColEl = document.createElement('div');
-            fiveDayColEl.setAttribute('class','col s3')
+            fiveDayColEl.setAttribute('class','col s2 z-depth-3 space')
+            // https://stackoverflow.com/questions/34968120/materialize-framework-margin-between-columns
             fiveDayColEl.innerHTML = `
-                    <div class="card horizontal">
-                        <div class="card-image">
-                            <img id="five-img`+i+`" src="http://placehold.it/50x50">
-                        </div>
-                        <div class="card-stacked">
+                        <div>
                             <div class="card-content">
+                                <img id="five-img`+i+`" class="responsive-img" src="http://placehold.it/50x50">
                                 <p id="five-date`+i+`"></p>
                                 <p id="five-temp`+i+`">Temp</p>
                                 <p id="five-humidity`+i+`">Humidity</p>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
             console.log("fiveDayCol element: ", fiveDayColEl)
             fiveDayRowEl.append(fiveDayColEl);
             let day = "day"+i
@@ -245,6 +220,7 @@ function weatherForecast() {
              
             fiveDayEls[day].fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
             fiveDayEls[day].fiveDayDateEl.innerText = fiveDayWeather[i].date;
+            console.log(fiveDayWeather[i].date);
             fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp+" \u00b0"+"F";
             fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity+" \u0025";
             
