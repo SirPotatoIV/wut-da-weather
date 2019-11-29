@@ -182,6 +182,8 @@ function weatherForecast() {
         oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
         oneDayImgEl.setAttribute('src', oneDayimgUrl);
         const fiveDayRowEl = document.getElementById('five-day-row')
+        // Used to erase anything currently in the display, otherwise it would continue appending 5 days every search.
+        fiveDayRowEl.innerHTML="";
         let fiveDayEls = [];
 
         // Realized I have an ID theft issue. Would need to code this section a different way.
@@ -215,8 +217,8 @@ function weatherForecast() {
              
             fiveDayEls[day].fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
             fiveDayEls[day].fiveDayDateEl.innerText = fiveDayWeather[i].date;
-            fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp;
-            fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity;
+            fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp+" \u00b0"+"F";
+            fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity+" \u0025";
             
 
         }
