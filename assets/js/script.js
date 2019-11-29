@@ -25,7 +25,10 @@ function weatherForecast() {
             searchSectionEl.innerHTML = "";
             for(i=0; i < previousCities.length; i++){
                 const previousSearchEl = document.createElement('li');
-                previousSearchEl.innerText = previousCities[previousCities.length-i-1];
+                const previousSearchButtonEl = document.createElement('button');
+                previousSearchButtonEl.setAttribute("class", "btn")
+                previousSearchButtonEl.innerText = previousCities[previousCities.length-i-1];
+                previousSearchEl.append(previousSearchButtonEl)
                 searchSectionEl.append(previousSearchEl);
                 // console.log("Previous Search:",previousSearchEl);
             }
