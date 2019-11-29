@@ -182,7 +182,7 @@ function weatherForecast() {
         oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
         oneDayImgEl.setAttribute('src', oneDayimgUrl);
         const fiveDayRowEl = document.getElementById('five-day-row')
-
+        let fiveDayEls = [];
 
         // Realized I have an ID theft issue. Would need to code this section a different way.
         for(i=0; i < fiveDayWeather.length; i++){
@@ -191,29 +191,32 @@ function weatherForecast() {
             fiveDayColEl.innerHTML = `
                     <div class="card horizontal">
                         <div class="card-image">
-                            <img id="five-img" src="http://placehold.it/50x50">
+                            <img id="five-img`+i+`" src="http://placehold.it/50x50">
                         </div>
                         <div class="card-stacked">
                             <div class="card-content">
-                                <p id="five-date"></p>
-                                <p id="five-temp">Temp</p>
-                                <p id="five-humidity">Humidity</p>
+                                <p id="five-date`+i+`"></p>
+                                <p id="five-temp`+i+`">Temp</p>
+                                <p id="five-humidity`+i+`">Humidity</p>
                             </div>
                         </div>
                     </div>`;
-            
+            console.log("fiveDayCol element: ", fiveDayColEl)
             fiveDayRowEl.append(fiveDayColEl);
-                    
-            const fiveDayImgEl = document.getElementById('five-img');
-            // console.log(fiveDayImgEl);
-            const fiveDayDateEl = document.getElementById('five-date');
-            const fiveDayTempEl = document.getElementById('five-temp');
-            const fiveDayHumidityEl = document.getElementById('five-humidity');
-
-            fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
-            fiveDayDateEl.innerText = fiveDayWeather[i].date;
-            fiveDayTempEl.innerText = fiveDayWeather[i].temp;
-            fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity;
+            let day = "day"+i
+            console.log("day:", day)
+             fiveDayEls[day]= {
+                fiveDayImgEl: document.getElementById('five-img'+i),
+                // console.log(fiveDayImgEl);
+                fiveDayDateEl: document.getElementById('five-date'+i),
+                fiveDayTempEl: document.getElementById('five-temp'+i),
+                fiveDayHumidityEl: document.getElementById('five-humidity'+i)
+             }           
+             
+            fiveDayEls[day].fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
+            fiveDayEls[day].fiveDayDateEl.innerText = fiveDayWeather[i].date;
+            fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp;
+            fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity;
             
 
         }
