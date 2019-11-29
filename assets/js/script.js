@@ -21,10 +21,12 @@ function weatherForecast() {
                 previousSearchEl.innerText = userCity;
                 sideNavEl.append(previousSearchEl);
         } else{
+            const searchSectionEl = document.getElementById('previous-search-list');                
+            searchSectionEl.innerHTML = "";
             for(i=0; i < previousCities.length; i++){
                 const previousSearchEl = document.createElement('li');
                 previousSearchEl.innerText = previousCities[previousCities.length-i-1];
-                sideNavEl.append(previousSearchEl);
+                searchSectionEl.append(previousSearchEl);
                 // console.log("Previous Search:",previousSearchEl);
             }
         }
