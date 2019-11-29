@@ -16,12 +16,30 @@ function weatherForecast() {
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
         // console.log(previousCities)
         const previousCities = JSON.parse(previousCitiesStr);
-        if(isRendered){
-            const previousSearchEl = document.createElement('li');
-                previousSearchEl.innerText = userCity;
-                sideNavEl.append(previousSearchEl);
-        } else{
-            const searchSectionEl = document.getElementById('previous-search-list');                
+        // if(isRendered){
+        //     const previousSearchEl = document.createElement('li');
+        //         previousSearchEl.innerText = userCity;
+        //         sideNavEl.append(previousSearchEl);
+        // } else{
+        //     const searchSectionEl = document.getElementById('previous-search-list');                
+        //     searchSectionEl.innerHTML = "";
+        //     for(i=0; i < previousCities.length; i++){
+        //         const previousSearchEl = document.createElement('li');
+        //         const previousSearchButtonEl = document.createElement('button');
+        //         previousSearchButtonEl.setAttribute("class", "btn")
+        //         previousSearchButtonEl.innerText = previousCities[previousCities.length-i-1];
+        //         previousSearchEl.append(previousSearchButtonEl)
+        //         searchSectionEl.append(previousSearchEl);
+        //         // Adds event listener to each previous search
+        //         previousSearchButtonEl.addEventListener("click", function(){
+        //             // console.log("previous search clicked");
+        //             const userCity = event.path[0].innerText;
+        //             console.log(userCity);
+        //             searchForCityWeather(userCity);
+        //         })
+        //     }
+        // }
+        const searchSectionEl = document.getElementById('previous-search-list');                
             searchSectionEl.innerHTML = "";
             for(i=0; i < previousCities.length; i++){
                 const previousSearchEl = document.createElement('li');
@@ -38,7 +56,6 @@ function weatherForecast() {
                     searchForCityWeather(userCity);
                 })
             }
-        }
     }
     searchRender();
 
@@ -52,8 +69,8 @@ function weatherForecast() {
                 
                 const userCity = cityInputEl.value;
                 // console.log('You searched for this city: ',userCity);
-                searchRender(true, userCity)
                 storeInLocalStorage(userCity);
+                searchRender(true, userCity)
                 searchForCityWeather(userCity);
                 
             });
