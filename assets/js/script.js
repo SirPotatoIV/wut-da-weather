@@ -6,11 +6,11 @@ function weatherForecast() {
         const lastCity = previousCities[previousCities.length-1];
         console.log(lastCity);
         searchRender()
-        searchForCityWeather(lastCity)
+        getCurrentDayWeather(lastCity)
     }
     pageInit();
     
-
+    // Renders previous search results if they exist
     function searchRender(isRendered, userCity) {
         const sideNavEl = document.getElementById('slide-out');
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
@@ -31,13 +31,12 @@ function weatherForecast() {
                     // console.log("previous search clicked");
                     const userCity = event.path[0].innerText;
                     console.log(userCity);
-                    searchForCityWeather(userCity);
+                    getCurrentDayWeather(userCity);
                 })
             }
     }
-    searchRender();
+    searchRender(); 
 
-    
     function getUserCity() {
         const searchButtonEl = document.getElementById('search-city');
         console.log(searchButtonEl);
@@ -49,13 +48,15 @@ function weatherForecast() {
                 // console.log('You searched for this city: ',userCity);
                 storeInLocalStorage(userCity);
                 searchRender(true, userCity)
-                searchForCityWeather(userCity);
+                getCurrentDayWeather(userCity);
                 
             });
             
         }
         getUserCity();
-        
+
+    
+    // Updates local storage of previously searched cities. Set to store up to five and then erase the oldest.
     function storeInLocalStorage(userCity) {
         const cityToStore = userCity;
         let strCities = window.localStorage.getItem("previousCities") || "[]";
@@ -73,8 +74,8 @@ function weatherForecast() {
         // initialRender();
     }
     
-    // Function will be used to perform request to the weather API
-    function searchForCityWeather(userCity){
+    // Function gets the users input and then calls the function that will get the weather data from the API
+    function getCurrentDayWeather(userCity){
         // Jake's apiKey
         const apiKey = "14148f20140310fac55bc379dbdb7119";
         const cityName = userCity;
@@ -113,6 +114,7 @@ function weatherForecast() {
         });
     }
     
+    // Function does a second call to get the UV Index. Weather api requires a separate get for the uv index.
     function requestUVIndex(oneDayWeather, apiKey){
         
         const uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+oneDayWeather.lat+"&lon="+oneDayWeather.lon;
@@ -121,16 +123,9 @@ function weatherForecast() {
         .then(function(response) {
             
             oneDayWeather.uvIndex = response.data.value;
-            // console.log(oneDayWeather);
-            oneDayRender(oneDayWeather);
             getFiveDayForecast(oneDayWeather);
             
         });  
-    }
-
-    function oneDayRender(oneDayWeather){
-        imgUrl = 'http://openweathermap.org/img/wn/'+oneDayWeather.weatherIcon+'@2x.png'
-        // console.log(imgUrl);
     }
     
     function getFiveDayForecast(oneDayWeather){
@@ -184,7 +179,7 @@ function weatherForecast() {
         oneDayTempEl.innerText = "Temperature: "+oneDayWeather.temp+" \u00b0"+"F";
         oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
         oneDayWindSpeedEl.innerText = "Wind Speed: "+oneDayWeather.windSpeed+" MPH";
-        oneDayUvIndexEl.innerText = "UV Index: "+oneDayWeather.uvIndex;
+        oneDayUvIndexEl.innerHTML = "UV Index: <span class='white-text red z-depth-3'>"+oneDayWeather.uvIndex+"</span>";
         oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
         oneDayImgEl.setAttribute('src', oneDayimgUrl);
         const fiveDayRowEl = document.getElementById('five-day-row')
@@ -196,12 +191,12 @@ function weatherForecast() {
         for(i=0; i < fiveDayWeather.length; i++){
             const fiveDayColEl = document.createElement('div');
             fiveDayColEl.setAttribute('class','col s2 z-depth-3 space')
-            // https://stackoverflow.com/questions/34968120/materialize-framework-margin-between-columns
+            // https://www.youtube.com/watch?v=wGj3jxwSkIg
             fiveDayColEl.innerHTML = `
                         <div>
-                            <div class="card-content">
+                            <div class="card-content small-font">
+                                <p class="center" id="five-date`+i+`"></p>
                                 <img id="five-img`+i+`" class="responsive-img" src="http://placehold.it/50x50">
-                                <p id="five-date`+i+`"></p>
                                 <p id="five-temp`+i+`">Temp</p>
                                 <p id="five-humidity`+i+`">Humidity</p>
                             </div>

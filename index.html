@@ -17,10 +17,16 @@
     <nav>
       <div class = "nav-wrapper">
 
-        <div class = "container flow-text">
-          <!-- brand-logo sets font size and style. Center makes the text center -->
-          <a href="#" class="brand-logo center">Weather Dashboard</a>
-          <a href="#" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
+        <div class = "container">
+          <div class = "row valign-wrapper">
+            <div class="col s2">
+              <a href="#" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
+              <!-- brand-logo sets font size and style. Center makes the text center -->
+            </div>
+            <div class= "col s10">
+              <h3 class="web-title center-align">Weather Dashboard</h3>
+            </div>
+          </div>
         </div>
       
       </div>
@@ -49,14 +55,14 @@
             
             <div class="row">
               <div class="col s8">
-                <h5 id="city">Atlanta (8/15/19)</h5>
-                <p id ="temperature">temperature:</p>
-                <p id ="humidity">humidity:</p>
-                <p id ="wind-speed">wind speed:</p>
-                <p id ="uv-index">UV Index:</p>
+                <h5 id="city">City</h5>
+                <p id ="temperature">Temperature: </p>
+                <p id ="humidity">Humidity: </p>
+                <p id ="wind-speed">Wind Speed:</p>
+                <p id ="uv-index">UV Index</p>
               </div>
               <div class="col s4">
-                <img id="one-day-img" src="http://placehold.it/200x200"/>
+                <img id="one-day-img" src=""/>
               </div>
             </div>
             

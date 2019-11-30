@@ -2,12 +2,33 @@
     margin: 5px;
 }
 
+.web-title {
+    margin: 0px;
+}
+
+.small-font p {
+    /* https://www.smashingmagazine.com/2016/05/fluid-typography/ */
+    font-size: 1vw;
+}
+
+span {
+    padding: 4px 8px 4px 8px;
+    border-radius: 4px;
+}
+
+nav{
+    height: 100%;
+}
 li {
     padding-left: 10px;
     padding-right: 10px;
 }
-    
-@media only screen and (max-width : 1151px) {
+
+header, main, footer{
+    padding-left: 100px;
+}
+
+@media only screen and (max-width : 800px) {
 header, main, footer {
     padding-left: 0;
 }
