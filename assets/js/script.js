@@ -1,10 +1,11 @@
+// Main function that contains all other functions
 function weatherForecast() {
     
+    // Used to render the most recent city searched if local storage exists and render the previous search results
     function pageInit(){
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
         const previousCities = JSON.parse(previousCitiesStr);
         const lastCity = previousCities[previousCities.length-1];
-        console.log(lastCity);
         searchRender()
         getCurrentDayWeather(lastCity)
     }
@@ -14,7 +15,6 @@ function weatherForecast() {
     function searchRender(isRendered, userCity) {
         const sideNavEl = document.getElementById('slide-out');
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
-        // console.log(previousCities)
         const previousCities = JSON.parse(previousCitiesStr);
       
         const searchSectionEl = document.getElementById('previous-search-list');                
@@ -28,50 +28,42 @@ function weatherForecast() {
                 searchSectionEl.append(previousSearchEl);
                 // Adds event listener to each previous search
                 previousSearchButtonEl.addEventListener("click", function(){
-                    // console.log("previous search clicked");
                     const userCity = event.path[0].innerText;
-                    console.log(userCity);
                     getCurrentDayWeather(userCity);
                 })
             }
     }
     searchRender(); 
 
+    // Gets the city the user input, adds the search to the search history, and calls the function that gets the current weather
     function getUserCity() {
         const searchButtonEl = document.getElementById('search-city');
-        console.log(searchButtonEl);
             const cityInputEl = document.getElementById('city-input');
             searchButtonEl.addEventListener('click', function(){
+                // Form has default to refresh page if enter is hit. This prevents the refresh from occuring, while still allowing the enter key to cause the event to occur.
                 event.preventDefault();
-                
+                // Stoes users inputted city
                 const userCity = cityInputEl.value;
-                // console.log('You searched for this city: ',userCity);
                 storeInLocalStorage(userCity);
                 searchRender(true, userCity)
                 getCurrentDayWeather(userCity);
                 
             });
-            
         }
         getUserCity();
 
-    
     // Updates local storage of previously searched cities. Set to store up to five and then erase the oldest.
     function storeInLocalStorage(userCity) {
         const cityToStore = userCity;
         let strCities = window.localStorage.getItem("previousCities") || "[]";
-        console.log("strCities:",strCities);
         let cities = JSON.parse(strCities);
         cities.push(cityToStore);
         // makes sure only a max of 5 cities are shown
         if(cities.length > 5){
             cities.splice(0, 1);
         }
-        console.log("cities:", cities)
         previousCities = JSON.stringify(cities);
         window.localStorage.setItem("previousCities", previousCities);
-        console.log("Local Storage: ", previousCities)
-        // initialRender();
     }
     
     // Function gets the users input and then calls the function that will get the weather data from the API
@@ -164,17 +156,18 @@ function weatherForecast() {
         });
     }
    
-    
+    // Changes the HTML to display all of the weather data
     function weatherRender(oneDayWeather, fiveDayWeather){
 
+        // Gets all the elements used for displaying the current weather
         const cityNameEl = document.getElementById('city')
         const oneDayTempEl = document.getElementById('temperature');
         const oneDayHumidityEl = document.getElementById('humidity');
         const oneDayWindSpeedEl = document.getElementById('wind-speed');
         const oneDayUvIndexEl = document.getElementById('uv-index');
         const oneDayImgEl = document.getElementById('one-day-img')
-
-        // https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
+        // Updates the HTML to display the current day's weather
+        // --https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
         cityNameEl.innerText = oneDayWeather.city+" "+oneDayWeather.date;
         oneDayTempEl.innerText = "Temperature: "+oneDayWeather.temp+" \u00b0"+"F";
         oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
@@ -182,44 +175,49 @@ function weatherForecast() {
         oneDayUvIndexEl.innerHTML = "UV Index: <span class='white-text red z-depth-3'>"+oneDayWeather.uvIndex+"</span>";
         oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
         oneDayImgEl.setAttribute('src', oneDayimgUrl);
+        
+        // Gets the element where the 5 day forecast will be dispalyed
         const fiveDayRowEl = document.getElementById('five-day-row')
         // Used to erase anything currently in the display, otherwise it would continue appending 5 days every search.
         fiveDayRowEl.innerHTML="";
+        // Array will be used to store the elements created for each day. This allows for using i to create unique ids and reference those unique ids in the loop
         let fiveDayEls = [];
 
-        // Renders the five day forecast
+        // Renders the five day forecast using a loop that iterates for the total number of days in the array fiveDayWeather
         for(i=0; i < fiveDayWeather.length; i++){
+            // Creates a column element to append all of the elements to, eventually is appended to the row that displays all the days
             const fiveDayColEl = document.createElement('div');
+            // space is not a materilize class. I added it to add margin around each day
             fiveDayColEl.setAttribute('class','col s2 z-depth-3 space')
-            // https://www.youtube.com/watch?v=wGj3jxwSkIg
+            // Creates the html for each day in the five day forecast
+            // -- Each p is assigned a unique id that is later used to get the element and update the inner text
+            // -- Found how to make images responsive in this video https://www.youtube.com/watch?v=wGj3jxwSkIg
             fiveDayColEl.innerHTML = `
                         <div>
                             <div class="card-content small-font">
                                 <p class="center" id="five-date`+i+`"></p>
-                                <img id="five-img`+i+`" class="responsive-img" src="http://placehold.it/50x50">
+                                <img id="five-img`+i+`" class="responsive-img" src="">
                                 <p id="five-temp`+i+`">Temp</p>
                                 <p id="five-humidity`+i+`">Humidity</p>
                             </div>
                         </div>`;
-            console.log("fiveDayCol element: ", fiveDayColEl)
             fiveDayRowEl.append(fiveDayColEl);
+            
+            // Creates an object that contains all the elements created above to display each day in the five day forecast
+            // -- day used for referencing the correct elements when updating the innerText 
             let day = "day"+i
-            console.log("day:", day)
-             fiveDayEls[day]= {
+            fiveDayEls[day]= {
                 fiveDayImgEl: document.getElementById('five-img'+i),
-                // console.log(fiveDayImgEl);
                 fiveDayDateEl: document.getElementById('five-date'+i),
                 fiveDayTempEl: document.getElementById('five-temp'+i),
                 fiveDayHumidityEl: document.getElementById('five-humidity'+i)
              }           
              
+            // Updates the innerText of the elements created to display each day's forecast
             fiveDayEls[day].fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
             fiveDayEls[day].fiveDayDateEl.innerText = fiveDayWeather[i].date;
-            console.log(fiveDayWeather[i].date);
             fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp+" \u00b0"+"F";
             fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity+" \u0025";
-            
-
         }
     }
 
