@@ -1,9 +1,44 @@
+/* Adds margin to elements that display the five day forecast */
+.space {
+    margin: 5px;
+}
+
+/* Remove margin caused by materilize from title */
+.web-title {
+    margin: 0px;
+}
+
+/* Used this article to help make text in five day forecast more responsive https://www.smashingmagazine.com/2016/05/fluid-typography/ */
+.small-font p {
+    font-size: 1vw;
+}
+
+/* Used to style the box around the uv index */
+span {
+    padding: 4px 8px 4px 8px;
+    border-radius: 4px;
+}
+
+/* Makes the nav height grow when the title wraps due to the screen/window being shrunk */
+nav{
+    height: 100%;
+}
+
+/* Adds padding to the previous search results */
 li {
     padding-left: 10px;
     padding-right: 10px;
 }
-    
-@media only screen and (max-width : 992px) {
+
+/* Allows for no overlap of the side nav and the other elements when window/screen is sized smaller */
+/* -- Code came from materilize documentation */
+header, main, footer{
+    padding-left: 100px;
+}
+
+/* Used to collapse the sidenav when the window/screen reaches a certain size */
+/* -- Code came from materilize documentation */
+@media only screen and (max-width : 800px) {
 header, main, footer {
     padding-left: 0;
 }
