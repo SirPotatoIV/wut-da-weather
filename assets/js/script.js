@@ -81,7 +81,7 @@ function weatherForecast() {
         const apiKey = "14148f20140310fac55bc379dbdb7119";
         const cityName = userCity;
         const units = "imperial";
-        const oneDayWeatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units="+units+"&APPID="+apiKey;
+        const oneDayWeatherURL = "https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units="+units+"&APPID="+apiKey;
         let oneDayWeather = {
             city: "",
             date:"",
@@ -164,7 +164,7 @@ function weatherForecast() {
         const apiKey = "14148f20140310fac55bc379dbdb7119";
         const cityName = oneDayWeather.city;
         const units = "imperial";
-        const fiveDayForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&units="+units+"&APPID="+apiKey;
+        const fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&units="+units+"&APPID="+apiKey;
         let fiveDayWeather = [];
         
         axios.get(fiveDayForecastURL) 
@@ -217,7 +217,7 @@ function weatherForecast() {
         oneDayHumidityEl.innerText = "Humidity: "+oneDayWeather.humidity+" \u0025";
         oneDayWindSpeedEl.innerText = "Wind Speed: "+oneDayWeather.windSpeed+" MPH";
         oneDayUvIndexEl.innerHTML = "UV Index: <span class='white-text red z-depth-3'>"+oneDayWeather.uvIndex+"</span>";
-        oneDayimgUrl = "http://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
+        oneDayimgUrl = "https://openweathermap.org/img/wn/"+oneDayWeather.weatherIcon+"@2x.png";
         oneDayImgEl.setAttribute('src', oneDayimgUrl);
         
         // Gets the element where the 5 day forecast will be dispalyed
@@ -258,7 +258,7 @@ function weatherForecast() {
              }           
              
             // Updates the innerText of the elements created to display each day's forecast
-            fiveDayEls[day].fiveDayImgEl.setAttribute('src','http://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
+            fiveDayEls[day].fiveDayImgEl.setAttribute('src','https://openweathermap.org/img/wn/'+fiveDayWeather[i].weatherIcon+'@2x.png')
             fiveDayEls[day].fiveDayDateEl.innerText = fiveDayWeather[i].date;
             fiveDayEls[day].fiveDayTempEl.innerText = fiveDayWeather[i].temp+" \u00b0"+"F";
             fiveDayEls[day].fiveDayHumidityEl.innerText = fiveDayWeather[i].humidity+" \u0025";
