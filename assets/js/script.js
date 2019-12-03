@@ -88,6 +88,7 @@ function weatherForecast() {
         };
 
         // Performs request to the weather API with get
+        // -- Found out how to handle errors using GitHub user "fgilio" helpful code https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
         axios.get(oneDayWeatherURL) 
         .then(function(response) {
             oneDayWeather.city = response.data.name;
@@ -103,6 +104,18 @@ function weatherForecast() {
             // Takes values recieved from this get and passess them on to requestUVIndex. 
             // Tried setting oneDayWeather.uvIndex in this function, but it would set the value before the function call completed.
             requestUVIndex(oneDayWeather, apiKey)
+        })
+        .catch(function(error){
+            console.log("catch of axios has been triggered. An error has occurred")
+            if (error.response){
+                console.log("Request was made, status code falls within 2xx: ", error.response)
+            }
+            else if (error.request){
+                console.log("Request was made, but no response: ", error.request)
+            }
+            else{
+                console.log("Request was not made, you done messed up", error.message)
+            }
         });
     }
     
