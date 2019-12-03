@@ -110,6 +110,7 @@ function weatherForecast() {
             if (error.response){
                 
                 console.log("Request was made, status code falls within 2xx: ", error.response)
+                errorMessage(error.response.data.message)
             }
             else if (error.request){
                 console.log("Request was made, but no response: ", error.request)
@@ -120,15 +121,19 @@ function weatherForecast() {
         });
     }
     
-    function errorMessage() {
+    function errorMessage(message) {
+        if(document.getElementById('error-message')){
+
+        } else{
         const slideOutEl = document.getElementById('slide-out');
         const errorMessageEl = document.createElement('div');
-        errorMessageEl.setAttribute('class', 'center')
-        errorMessageEl.innerText = "City not found"
+        errorMessageEl.setAttribute('class', 'center');
+        errorMessageEl.setAttribute('id', 'error-message')
+        errorMessageEl.innerText = message
         slideOutEl.prepend(errorMessageEl)
-        console.log(errorMessageEl)
+        // console.log(errorMessageEl)
+        }
     }
-    errorMessage()
 
     // Function does a second call to get the UV Index. Weather api requires a separate get for the uv index.
     function requestUVIndex(oneDayWeather, apiKey){
