@@ -122,11 +122,11 @@ function weatherForecast() {
             }
             else if (error.request){
                 // console.log("Request was made, but no response: ", error.request)
-                errorMessage(error.response.data.message)
+                errorMessage("No Response Recieved")
             }
             else{
                 // console.log("Request was not made, you done messed up", error.message)
-                errorMessage(error.response.data.message)
+                errorMessage("Search could not be completed. Site Issue")
             }
         });
     }
@@ -148,7 +148,7 @@ function weatherForecast() {
     // Function does a second call to get the UV Index. Weather api requires a separate get for the uv index.
     function requestUVIndex(oneDayWeather, apiKey){
         
-        const uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+oneDayWeather.lat+"&lon="+oneDayWeather.lon;
+        const uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi?appid="+apiKey+"&lat="+oneDayWeather.lat+"&lon="+oneDayWeather.lon;
         
         axios.get(uvIndexURL) 
         .then(function(response) {
