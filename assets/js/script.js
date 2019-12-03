@@ -3,11 +3,13 @@ function weatherForecast() {
     
     // Used to render the most recent city searched if local storage exists and render the previous search results
     function pageInit(){
-        const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
-        const previousCities = JSON.parse(previousCitiesStr);
-        const lastCity = previousCities[previousCities.length-1];
-        searchRender()
-        getCurrentDayWeather(lastCity)
+        if(window.localStorage.getItem("previousCities")){
+            const previousCitiesStr = window.localStorage.getItem("previousCities");
+            const previousCities = JSON.parse(previousCitiesStr);
+            const lastCity = previousCities[previousCities.length-1];
+            searchRender()
+            getCurrentDayWeather(lastCity)
+        }
     }
     pageInit();
     
