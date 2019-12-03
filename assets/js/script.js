@@ -108,6 +108,7 @@ function weatherForecast() {
         .catch(function(error){
             console.log("catch of axios has been triggered. An error has occurred")
             if (error.response){
+                
                 console.log("Request was made, status code falls within 2xx: ", error.response)
             }
             else if (error.request){
@@ -119,6 +120,16 @@ function weatherForecast() {
         });
     }
     
+    function errorMessage() {
+        const slideOutEl = document.getElementById('slide-out');
+        const errorMessageEl = document.createElement('div');
+        errorMessageEl.setAttribute('class', 'center')
+        errorMessageEl.innerText = "City not found"
+        slideOutEl.prepend(errorMessageEl)
+        console.log(errorMessageEl)
+    }
+    errorMessage()
+
     // Function does a second call to get the UV Index. Weather api requires a separate get for the uv index.
     function requestUVIndex(oneDayWeather, apiKey){
         
