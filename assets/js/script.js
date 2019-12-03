@@ -13,6 +13,13 @@ function weatherForecast() {
     
     // Renders previous search results if they exist
     function searchRender(isRendered, userCity) {
+        // If the previous search resulted in an error, there will be an error message still present. This removes the error message
+        // -- Found how to remove an element at this site https://www.abeautifulsite.net/adding-and-removing-elements-on-the-fly-using-javascript
+        if(document.getElementById('error-message')){
+            const errorMessageEl = document.getElementById('error-message');
+            errorMessageEl.parentNode.removeChild(errorMessageEl);
+        }
+        
         const sideNavEl = document.getElementById('slide-out');
         const previousCitiesStr = window.localStorage.getItem("previousCities") || "[]";
         const previousCities = JSON.parse(previousCitiesStr);
@@ -29,6 +36,8 @@ function weatherForecast() {
                 // Adds event listener to each previous search
                 previousSearchButtonEl.addEventListener("click", function(){
                     const userCity = event.path[0].innerText;
+                    storeInLocalStorage(userCity);
+                    searchRender(true, userCity);
                     getCurrentDayWeather(userCity);
                 })
             }
@@ -108,30 +117,31 @@ function weatherForecast() {
         .catch(function(error){
             console.log("catch of axios has been triggered. An error has occurred")
             if (error.response){
-                
-                console.log("Request was made, status code falls within 2xx: ", error.response)
+                // console.log("Request was made, status code falls within 2xx: ", error.response)
                 errorMessage(error.response.data.message)
             }
             else if (error.request){
-                console.log("Request was made, but no response: ", error.request)
+                // console.log("Request was made, but no response: ", error.request)
+                errorMessage(error.response.data.message)
             }
             else{
-                console.log("Request was not made, you done messed up", error.message)
+                // console.log("Request was not made, you done messed up", error.message)
+                errorMessage(error.response.data.message)
             }
         });
     }
     
     function errorMessage(message) {
         if(document.getElementById('error-message')){
-
+            // Do nothing, the last attempt was also an error
         } else{
-        const slideOutEl = document.getElementById('slide-out');
-        const errorMessageEl = document.createElement('div');
-        errorMessageEl.setAttribute('class', 'center');
-        errorMessageEl.setAttribute('id', 'error-message')
-        errorMessageEl.innerText = message
-        slideOutEl.prepend(errorMessageEl)
-        // console.log(errorMessageEl)
+            const slideOutEl = document.getElementById('slide-out');
+            const errorMessageEl = document.createElement('div');
+            errorMessageEl.setAttribute('class', 'center');
+            errorMessageEl.setAttribute('id', 'error-message')
+            errorMessageEl.innerText = message
+            slideOutEl.prepend(errorMessageEl)
+            // console.log(errorMessageEl)
         }
     }
 
