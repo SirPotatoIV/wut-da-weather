@@ -117,17 +117,13 @@ function weatherForecast() {
             requestUVIndex(oneDayWeather, apiKey)
         })
         .catch(function(error){
-            console.log("catch of axios has been triggered. An error has occurred")
             if (error.response){
-                // console.log("Request was made, status code falls within 2xx: ", error.response)
                 errorMessage(error.response.data.message)
             }
             else if (error.request){
-                // console.log("Request was made, but no response: ", error.request)
                 errorMessage("No Response Recieved")
             }
             else{
-                // console.log("Request was not made, you done messed up", error.message)
                 errorMessage("Search could not be completed. Site Issue")
             }
         });
@@ -143,7 +139,6 @@ function weatherForecast() {
             errorMessageEl.setAttribute('id', 'error-message')
             errorMessageEl.innerText = message
             slideOutEl.prepend(errorMessageEl)
-            // console.log(errorMessageEl)
         }
     }
 
