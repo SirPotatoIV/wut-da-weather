@@ -54,7 +54,18 @@
         <!-- Contains the main displayed content of the site. -->
         <main>
           
-          <div class="container">
+          <div id="first-visit-display" class ="container">
+            <div class = "row">
+              <div class = "col s12">
+                <h4>Welcome to the Weather Dashboard!</h4>
+                <p>Type the name of a city in the search field to find its weather.</p>
+                <p>If you are on a smaller display you may have to click on the 3 line icon in the top left corner to display the search field.</p>
+                
+              </div>
+            </div>
+
+          </div>
+          <div id="main-display-area"  class="container" style="display: none;">
             <!-- Contains current weather -->
             <div class="row">
               <div class="col s8">
@@ -79,8 +90,9 @@
             <div id="five-day-row" class="row">
               <!-- Columns for five day forecast are added here -->
             </div>
-        
+  
         </div>
+
         
       </main>
       </div>

@@ -171,7 +171,12 @@ function weatherForecast() {
    
     // Changes the HTML to display all of the weather data
     function weatherRender(oneDayWeather, fiveDayWeather){
-
+        // When the code is initially ran, the main display area is set to hidden. Changing it to initial makes the display type what ever the default value is.
+        // -- See documentation I used here https://www.w3schools.com/cssref/pr_class_display.asp
+        const firstVisitDisplayEl = document.getElementById('first-visit-display');
+        firstVisitDisplayEl.style.display = "none";
+        const mainDisplayAreaEl = document.getElementById('main-display-area');
+        mainDisplayAreaEl.style.display = "initial";
         // Gets all the elements used for displaying the current weather
         const cityNameEl = document.getElementById('city')
         const oneDayTempEl = document.getElementById('temperature');
